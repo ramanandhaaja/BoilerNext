@@ -9,8 +9,8 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Navigation */}
-      <header className="border-b">
-        <div className="container flex h-16 items-center justify-between px-4 md:px-6">
+      <header className="border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60 sticky top-0 z-50 w-full">
+        <div className="container mx-auto flex h-24 items-center justify-between px-6 md:px-8">
           <div className="flex items-center gap-2">
             <Image
               src="/logo.svg"
@@ -22,16 +22,16 @@ export default function Home() {
             <span className="text-xl font-bold">Company</span>
           </div>
           <nav className="hidden md:flex gap-6">
-            <Link href="#features" className="text-sm font-medium hover:underline underline-offset-4">
+            <Link href="#features" className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
               Features
             </Link>
-            <Link href="#testimonials" className="text-sm font-medium hover:underline underline-offset-4">
+            <Link href="#testimonials" className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
               Testimonials
             </Link>
-            <Link href="#pricing" className="text-sm font-medium hover:underline underline-offset-4">
+            <Link href="#pricing" className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
               Pricing
             </Link>
-            <Link href="#contact" className="text-sm font-medium hover:underline underline-offset-4">
+            <Link href="#contact" className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
               Contact
             </Link>
           </nav>
@@ -64,8 +64,8 @@ export default function Home() {
       </header>
 
       {/* Hero Section */}
-      <section className="w-full py-12 md:py-24 lg:py-32 bg-gradient-to-b from-white to-gray-100 dark:from-gray-900 dark:to-gray-800">
-        <div className="container px-4 md:px-6">
+      <section className="w-full py-24 md:py-32 lg:py-40 bg-gradient-to-b from-blue-50 to-white dark:from-gray-900 dark:to-gray-800">
+        <div className="container mx-auto px-4 md:px-6">
           <div className="grid gap-6 lg:grid-cols-2 lg:gap-12 xl:gap-16">
             <div className="flex flex-col justify-center space-y-4">
               <div className="space-y-2">
@@ -100,7 +100,7 @@ export default function Home() {
 
       {/* Features Section */}
       <section id="features" className="w-full py-12 md:py-24 lg:py-32">
-        <div className="container px-4 md:px-6">
+        <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
               <div className="inline-block rounded-lg bg-gray-100 px-3 py-1 text-sm dark:bg-gray-800">
@@ -114,7 +114,7 @@ export default function Home() {
               </p>
             </div>
           </div>
-          <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 mt-8">
+          <div className="mx-auto grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 mt-8">
             {[
               {
                 title: "Intuitive Dashboard",
@@ -149,7 +149,7 @@ export default function Home() {
             ].map((feature, index) => (
               <Card key={index} className="flex flex-col items-center text-center">
                 <CardHeader>
-                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 text-3xl">
+                  <div className="flex h-16 w-16 items-center justify-center rounded-full bg-blue-50 text-blue-600 dark:bg-gray-800 text-3xl transform transition-transform hover:scale-110">
                     {feature.icon}
                   </div>
                   <CardTitle className="mt-4">{feature.title}</CardTitle>
@@ -164,8 +164,8 @@ export default function Home() {
       </section>
 
       {/* Testimonials Section */}
-      <section id="testimonials" className="w-full py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800">
-        <div className="container px-4 md:px-6">
+      <section id="testimonials" className="w-full py-24 md:py-32 lg:py-40 bg-gradient-to-b from-white to-blue-50 dark:from-gray-900 dark:to-gray-800">
+        <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
               <div className="inline-block rounded-lg bg-white px-3 py-1 text-sm dark:bg-gray-900">
@@ -179,7 +179,7 @@ export default function Home() {
               </p>
             </div>
           </div>
-          <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 mt-8">
+          <div className="mx-auto grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 mt-8">
             {[
               {
                 quote: "This platform has completely transformed how we operate. We&#39;ve seen a 30% increase in productivity since implementing it.",
@@ -229,8 +229,8 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="w-full py-12 md:py-24 lg:py-32 bg-primary text-primary-foreground">
-        <div className="container px-4 md:px-6">
+      <section className="w-full py-24 md:py-32 lg:py-40 bg-blue-600 text-white">
+        <div className="container mx-auto px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <div className="space-y-2">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
@@ -254,18 +254,18 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="border-t py-6 md:py-0">
-        <div className="container flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
+        <div className="container mx-auto flex flex-col items-center justify-between gap-4 md:h-24 md:flex-row">
           <p className="text-center text-sm leading-loose text-gray-500 md:text-left">
             &copy; 2025 Company Inc. All rights reserved.
           </p>
           <div className="flex gap-4">
-            <Link href="#" className="text-sm font-medium hover:underline underline-offset-4">
+            <Link href="#" className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
               Terms
             </Link>
-            <Link href="#" className="text-sm font-medium hover:underline underline-offset-4">
+            <Link href="#" className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
               Privacy
             </Link>
-            <Link href="#" className="text-sm font-medium hover:underline underline-offset-4">
+            <Link href="#" className="text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors">
               Cookies
             </Link>
           </div>

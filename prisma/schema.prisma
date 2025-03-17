@@ -41,13 +41,13 @@ model Session {
 }
 
 model User {
-  id                 String    @id @default(cuid())
+  id                 String         @id @default(cuid())
   name               String?
-  email              String?   @unique
+  email              String?        @unique
   emailVerified      DateTime?
   image              String?
   password           String?
-  resetToken         String?   @unique
+  resetToken         String?        @unique
   resetTokenExpires  DateTime?
   accounts           Account[]
   sessions           Session[]

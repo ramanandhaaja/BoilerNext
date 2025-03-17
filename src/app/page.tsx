@@ -2,6 +2,8 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
+import { AuthCheck } from "@/components/auth/auth-check";
+import { UserMenu } from "@/components/auth/user-menu";
 
 export default function Home() {
   return (
@@ -34,10 +36,29 @@ export default function Home() {
             </Link>
           </nav>
           <div className="flex items-center gap-4">
-            <Button variant="outline" size="sm" className="hidden md:flex">
-              Sign In
-            </Button>
-            <Button size="sm">Get Started</Button>
+            <AuthCheck
+              fallback={
+                <>
+                  <Link href="/auth/signin">
+                    <Button variant="outline" size="sm" className="hidden md:flex">
+                      Sign In
+                    </Button>
+                  </Link>
+                  <Link href="/auth/signup">
+                    <Button size="sm">Get Started</Button>
+                  </Link>
+                </>
+              }
+            >
+              <div className="flex items-center gap-4">
+                <Link href="/dashboard">
+                  <Button variant="outline" size="sm" className="hidden md:flex">
+                    Dashboard
+                  </Button>
+                </Link>
+                <UserMenu />
+              </div>
+            </AuthCheck>
           </div>
         </div>
       </header>
@@ -56,7 +77,9 @@ export default function Home() {
                 </p>
               </div>
               <div className="flex flex-col gap-2 min-[400px]:flex-row">
-                <Button size="lg">Get Started</Button>
+                <Link href="/auth/signup">
+                  <Button size="lg">Get Started</Button>
+                </Link>
                 <Button variant="outline" size="lg">
                   Learn More
                 </Button>

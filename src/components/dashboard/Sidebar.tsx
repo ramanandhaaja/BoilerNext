@@ -11,6 +11,7 @@ import {
   Shield, 
   BarChart2, 
   BookOpen, 
+  Calendar, 
   Settings, 
   ChevronDown, 
   ChevronRight,
@@ -80,13 +81,23 @@ export function Sidebar() {
       icon: <BookOpen className="h-5 w-5" />,
     },
     {
+      title: "Task",
+      href: "/dashboard",
+      icon: <Briefcase className="h-5 w-5" />,
+    },
+    {
+      title: "Calendar",
+      href: "/dashboard/calendar",
+      icon: <Calendar className="h-5 w-5" />,
+    },
+    {
       title: "Conversation",
       href: "/dashboard/conversation",
       icon: <Mail className="h-5 w-5" />,
       isExpandable: true,
       submenu: [
         { title: "Chat", href: "/dashboard/conversation/chat" },
-        { title: "Mention", href: "/dashboard/conversation/mention" },
+        { title: "Feedback", href: "/dashboard/conversation/feedback" },
         { title: "Unassigned", href: "/dashboard/conversation/unassigned" },
         { title: "All", href: "/dashboard/conversation/all" },
         { title: "Blocked", href: "/dashboard/conversation/blocked" },

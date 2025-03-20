@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -19,14 +19,36 @@ import {
   User
 } from "lucide-react";
 import { format } from "date-fns";
+import { WhatsAppStatusPanel } from "./WhatsAppStatusPanel";
+
+interface Message {
+  id: number;
+  content: string;
+  sender_type: 'user' | 'admin' | 'bot';
+  timestamp: string;
+}
+
+interface Conversation {
+  id: number;
+  user_name: string;
+  user_phone: string;
+  last_message?: string;
+  last_message_time?: string;
+  status: 'active' | 'inactive' | 'pending';
+  is_bot_active: boolean;
+  created_at: string;
+  updated_at: string;
+  assigned_admin_id?: string;
+}
 
 export default function ChatPage() {
   const [messageText, setMessageText] = useState("");
   const [showDetails, setShowDetails] = useState(true);
-  const [activeConversation, setActiveConversation] = useState<any>(null);
-
+  const [activeConversation, setActiveConversation] = useState<Conversation | null>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  
   // Mock data
-  const conversations = [
+  const conversations: Conversation[] = [
     {
       id: 1,
       user_name: 'John Doe',
@@ -39,8 +61,9 @@ export default function ChatPage() {
       updated_at: new Date().toISOString()
     }
   ];
-
-  const activeMessages = [
+  
+  // Mock messages
+  const activeMessages = useMemo<Message[]>(() => [
     {
       id: 1,
       content: 'Hi there!',
@@ -53,9 +76,16 @@ export default function ChatPage() {
       sender_type: 'admin',
       timestamp: new Date().toISOString()
     }
-  ];
-
-  const handleSelectConversation = (conversation: any) => {
+  ], []);
+  
+  // Scroll to bottom when messages change
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [activeMessages]);
+  
+  const handleSelectConversation = (conversation: Conversation) => {
     setActiveConversation(conversation);
   };
   
@@ -65,7 +95,7 @@ export default function ChatPage() {
     setMessageText("");
     // In a real app, this is where you would send the message
   };
-
+  
   const formatMessageTime = (timestamp: string) => {
     try {
       return format(new Date(timestamp), 'h:mm a');
@@ -98,6 +128,8 @@ export default function ChatPage() {
             </Button>
           </div>
         </div>
+        
+        <WhatsAppStatusPanel />
         
         <div className="flex items-center justify-between px-4 py-2 border-b border-gray-200">
           <div className="flex items-center gap-2">
@@ -157,6 +189,12 @@ export default function ChatPage() {
               </div>
             </div>
           ))}
+          
+          {conversations.length === 0 && (
+            <div className="p-4 text-center text-gray-500">
+              No conversations yet
+            </div>
+          )}
         </div>
       </div>
 
@@ -196,32 +234,37 @@ export default function ChatPage() {
             </div>
 
             <div className="flex-1 overflow-y-auto p-4 space-y-4">
-              {activeMessages.map((message) => (
-                <div 
-                  key={message.id}
-                  className={`flex ${message.sender_type === 'user' ? 'justify-start' : 'justify-end'}`}
-                >
+              {activeMessages.length === 0 ? (
+                <div className="text-center text-gray-500">No messages yet</div>
+              ) : (
+                activeMessages.map((message) => (
                   <div 
-                    className={`max-w-[70%] rounded-lg p-3 ${
-                      message.sender_type === 'user' 
-                        ? 'bg-gray-100 text-gray-800' 
-                        : message.sender_type === 'admin'
-                          ? 'bg-green-100 text-green-800'
-                          : 'bg-blue-100 text-blue-800'
-                    }`}
+                    key={message.id}
+                    className={`flex ${message.sender_type === 'user' ? 'justify-start' : 'justify-end'}`}
                   >
-                    {message.sender_type !== 'user' && (
-                      <div className="text-xs opacity-70 mb-1">
-                        {message.sender_type === 'admin' ? 'Admin' : 'Bot'}
+                    <div 
+                      className={`max-w-[70%] rounded-lg p-3 ${
+                        message.sender_type === 'user' 
+                          ? 'bg-gray-100 text-gray-800' 
+                          : message.sender_type === 'admin'
+                            ? 'bg-green-100 text-green-800'
+                            : 'bg-blue-100 text-blue-800'
+                      }`}
+                    >
+                      {message.sender_type !== 'user' && (
+                        <div className="text-xs opacity-70 mb-1">
+                          {message.sender_type === 'admin' ? 'Admin' : 'Bot'}
+                        </div>
+                      )}
+                      <p>{message.content}</p>
+                      <div className="text-xs text-right mt-1 opacity-70">
+                        {formatMessageTime(message.timestamp)}
                       </div>
-                    )}
-                    <p>{message.content}</p>
-                    <div className="text-xs text-right mt-1 opacity-70">
-                      {formatMessageTime(message.timestamp)}
                     </div>
                   </div>
-                </div>
-              ))}
+                ))
+              )}
+              <div ref={messagesEndRef} />
             </div>
 
             <form onSubmit={handleSendMessage} className="border-t border-gray-200 p-4 flex items-center gap-2">
